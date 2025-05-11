@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Permintaan Maaf</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #2c3e50, #000000);
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100dvh;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    #typingText {
+      font-size: 1.2em;
+      max-width: 85%;
+      margin-bottom: 30px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    #lanjutanText {
+      display: none;
+      font-size: 1.3em;
+      max-width: 85%;
+      margin-top: 20px;
+      line-height: 1.5;
+    }
+
+    .button-group {
+      display: none;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin: 10px;
+    }
+
+    .btn.maafkan {
+      background-color: #00ff6a;
+      color: #000;
+    }
+
+    .btn.tolak {
+      background-color: #ff4d4d;
+      color: white;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    #lanjutBtn {
+      display: none;
+      margin-top: 30px;
+    }
+
+    .bintang {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      animation: sparkle 2s infinite ease-in-out;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 0.1; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.8); }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="typingText"></div>
+  <div id="lanjutanText"></div>
+
+  <div class="button-group" id="buttonGroup">
+    <button class="btn tolak" onclick="tolakMaaf()">Tidak Dimaafkan</button>
+    <button class="btn maafkan" onclick="lanjutSetelahMaaf()">Dimaafkan</button>
+  </div>
+
+  <button class="btn maafkan" id="lanjutBtn" onclick="window.location.href='warning.html'">
+    ➡️ Lanjut
+  </button>
+
+  <script>
+    const teks = `Teruntukmu ....
+    
+    
+    
+    
+    Maafkan aku...
+
+Mungkin aku sering membuatmu kesal, kecewa, atau bahkan menangis.
+Aku sadar, aku tidak selalu bisa menjadi versi terbaik dari diriku.
+Tapi percayalah... tidak ada satu detik pun dari kata kata ku ingin menyakitimu.
+
+Dari lubuk hatiku yang terdalam... aku minta maaf.`;
+
+    const pesanLanjutan = "Aku ada sesuatu untukmu... 🎁";
+
+    const typingText = document.getElementById("typingText");
+    const lanjutanText = document.getElementById("lanjutanText");
+    const buttonGroup = document.getElementById("buttonGroup");
+    const lanjutBtn = document.getElementById("lanjutBtn");
+
+    let i = 0;
+
+    function ketikTeks() {
+      typingText.style.opacity = 1;
+      if (i < teks.length) {
+        typingText.textContent += teks.charAt(i);
+        i++;
+        setTimeout(ketikTeks, 80);
+      } else {
+        buttonGroup.style.display = "flex";
+      }
+    }
+
+    function tolakMaaf() {
+      alert("Tombol rusak!!! Karena developer sangat tidak kuat untuk tidak di maafkan😢 Anda harus menekan tombol di sebelahnya...hehe!!!");
+    }
+
+    function lanjutSetelahMaaf() {
+      buttonGroup.style.display = "none";
+      lanjutanText.style.display = "block";
+      lanjutanText.textContent = "";
+
+      let j = 0;
+      function ketikLanjutan() {
+        if (j < pesanLanjutan.length) {
+          lanjutanText.textContent += pesanLanjutan.charAt(j);
+          j++;
+          setTimeout(ketikLanjutan, 70);
+        } else {
+          lanjutBtn.style.display = "inline-block";
+        }
+      }
+
+      ketikLanjutan();
+    }
+
+    // Bintang-bintang latar belakang
+    for (let i = 0; i < 40; i++) {
+      const star = document.createElement('div');
+      star.className = 'bintang';
+      star.style.top = Math.random() * 100 + 'vh';
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.animationDelay = (Math.random() * 5) + 's';
+      document.body.appendChild(star);
+    }
+
+    window.onload = () => {
+      setTimeout(ketikTeks, 1000);
+    };
+  </script>
+
+</body>
+</html>

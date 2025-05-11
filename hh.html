@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Notifikasi WA Imut</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('img/brg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Comic Neue', cursive;
+      height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      flex-direction: column;
+    }
+
+    .notification {
+      background: rgba(255, 240, 245, 0.6);
+      color: rgb(0, 0, 0);
+      border-radius: 20px;
+      padding: 16px 20px;
+      width: 90%;
+      max-width: 320px;
+      backdrop-filter: blur(10px);
+      border: 2px dashed #ffb6c1;
+      box-shadow: 0 8px 24px rgba(255, 182, 193, 0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      animation: fadeIn 0.6s ease;
+    }
+
+    .notif-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .notif-header img {
+      width: 50px;
+      height: 50px;
+      border-radius: 70%;
+    }
+
+    .notif-name {
+      font-weight: bold;
+      font-size: 1em;
+    }
+
+    .notif-status {
+      font-size: 0.5em;
+      color: #000000;
+      text-align: right;
+      font-weight: bold;
+    }
+
+    .notif-message {
+      font-size: 1em;
+      line-height: 1.4;
+    }
+
+    .notif-time {
+      font-size: 0.75em;
+      opacity: 0.7;
+      text-align: right;
+    }
+
+    .notif-nama {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #000000;
+    }
+
+    .status-bar {
+      position: absolute;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      color: rgb(255, 255, 255);
+      opacity: 0.9;
+      text-shadow: 0 0 5px rgba(0,0,0,0.6);
+    }
+
+    .status-bar::after {
+      content: " 🌸✨";
+      font-size: 1.5em;
+    }
+
+    .status-image {
+      width: 60px;
+      height: auto;
+      margin-top: 8px;
+      filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.5));
+    }
+
+    #lockTime {
+      font-size: 5em;
+      font-weight: 500;
+    }
+
+    #lockDate {
+      font-size: 1em;
+      margin-top: -10px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #nextPageButton {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 12px;
+      background-color: rgba(255, 105, 180, 0.6);
+      color: white;
+      cursor: pointer;
+      display: none;
+      opacity: 0;
+      border: 2px solid white;
+      font-weight: bold;
+      transition: opacity 0.8s ease, transform 0.3s ease;
+    }
+
+    #nextPageButton.show {
+      display: block;
+      opacity: 1;
+    }
+
+    #nextPageButton:hover {
+      transform: scale(1.1);
+      background-color: rgba(255, 105, 180, 0.8);
+    }
+
+    /* Tambahan emoji dekoratif */
+    .emoji-corner {
+      position: absolute;
+      font-size: 2em;
+    }
+
+    .emoji-corner.tl { top: 10px; left: 10px; }
+    .emoji-corner.tr { top: 10px; right: 10px; }
+    .emoji-corner.bl { bottom: 10px; left: 10px; }
+    .emoji-corner.br { bottom: 10px; right: 10px; }
+  </style>
+</head>
+<body>
+
+  <!-- Emoji Dekoratif -->
+  <div class="emoji-corner tl">🎀</div>
+  <div class="emoji-corner tr">🌈</div>
+  <div class="emoji-corner bl">🐰</div>
+  <div class="emoji-corner br">✨</div>
+
+  <!-- Status bar -->
+  <div class="status-bar">
+    <div id="lockTime">00:00</div>
+    <div id="lockDate">01 Januari 2025</div>
+    <img src="img/nanyak.gif" alt="ikon" class="status-image" />
+  </div>
+
+  <!-- Notifikasi -->
+  <div class="notification" id="notifBox">
+    <div class="notif-header">
+      <img src="img/isme.png" alt="WA Icon" />
+      <div class="notif-name">WhatsApp</div>
+      <div class="notif-status">Online</div>
+    </div>
+    <div class="notif-nama">Senyum_manismu✨</div>
+    <div class="notif-message" id="messageText"></div>
+    <div class="notif-time" id="notifTime">00:00</div>
+  </div>
+
+  <!-- Tombol lanjut -->
+  <button id="nextPageButton">Eh ada yang lupa...di klik yaa!!</button>
+
+  <!-- Suara notifikasi -->
+  <audio id="notifSound" src="https://www.myinstants.com/media/sounds/whatsapp-message.mp3" preload="auto"></audio>
+
+  <!-- Backsound musik latar -->
+  <audio id="bgMusic" src="SMM.mp3" preload="auto" loop></audio>
+
+  <script>
+    const nextPageButton = document.getElementById("nextPageButton");
+
+    function showNextPageButton() {
+      nextPageButton.classList.add("show");
+      nextPageButton.addEventListener("click", () => {
+        window.location.href = "ii.html";
+      });
+    }
+
+    const messages = [
+    "..............",
+      "dibaca yaaaaaaaaaa",
+      "Al",
+      "Selamat ya ws lulus ✨",
+      "Tetap semangat dan jangan menyerah 💪",
+      "Ojo nangis ae!",
+      "Bangga banget sama kamu! 😍",
+      '<img src="img/26.gif" alt="Selamat!" style="width: 50%; border-radius: 12px;" /><br>Kuat terus ya!',
+      '<img src="img/24.jpg" alt="Selamat!" style="width: 50%; border-radius: 12px;" /><br>aku nyuwun sepura sng uakeehhhh',
+      "Aku akeh salah nang wakmu 😔",
+      "Sepurane ya aku rung iso ng kono",
+      "Sebagai gantine aku gae iki",
+      '<img src="img/22.gif" alt="Selamat!" style="width: 50%; border-radius: 12px;" /><br>Jane ya angel banget gae ngene iki',
+      "2500 baris kode gak onok op op ne timbang roso bersalahku nang wakmu",
+      "Tapi aku pengen banget ngucapke selamat",
+      "Meskipun aku ora iso ngucapke langsung",
+      "Dadi e tak gae web iki khusus gae wakmu",
+      "Semoga kamu suka yaa",
+      '<img src="img/27.gif" alt="Selamat!" style="width: 50%; border-radius: 12px;" /><br><p>Selamat yaa! 🎉</p>',
+      "Selamat atas kelulusanmu! 🎓",
+      '<img src="img/girang.gif" alt="Selamat!" style="width: 50%; border-radius: 12px;" /><br><center><p>Cantik✨</p></center>',
+
+    ];
+
+    let current = 0;
+    const messageText = document.getElementById("messageText");
+    const notifTime = document.getElementById("notifTime");
+    const lockTime = document.getElementById("lockTime");
+    const lockDate = document.getElementById("lockDate");
+    const sound = document.getElementById("notifSound");
+    const bgMusic = document.getElementById("bgMusic");
+
+    function updateTime() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      notifTime.textContent = `${h}:${m}`;
+      lockTime.textContent = `${h}:${m}`;
+    }
+
+    function updateDate() {
+      const now = new Date();
+      const options = { day: 'numeric', month: 'long', year: 'numeric' };
+      const dateStr = now.toLocaleDateString('id-ID', options);
+      lockDate.textContent = dateStr;
+    }
+
+    function typeMessage(msg, callback) {
+      messageText.innerHTML = '';
+      if (msg.startsWith('<img')) {
+        messageText.innerHTML = msg;
+        sound.play();
+        if (callback) callback();
+      } else {
+        let i = 0;
+        const typing = setInterval(() => {
+          if (i < msg.length) {
+            messageText.textContent += msg[i];
+            i++;
+          } else {
+            clearInterval(typing);
+            sound.play();
+            if (callback) callback();
+          }
+        }, 70);
+      }
+    }
+
+    function nextMessage() {
+      if (current < messages.length) {
+        updateTime();
+        typeMessage(messages[current], () => {
+          current++;
+          if (current < messages.length) {
+            setTimeout(nextMessage, 5000);
+          } else {
+            showNextPageButton();
+          }
+        });
+      }
+    }
+
+    window.onload = () => {
+      updateTime();
+      updateDate();
+      nextMessage();
+
+      bgMusic.volume = 1; // Set volume to 10%
+      bgMusic.muted = false; // Unmute the audio
+      bgMusic.play().catch((e) => {
+        console.log("Autoplay diblokir oleh browser.");
+      });
+    };
+  </script>
+
+</body>
+</html>
+<!-- Compare this snippet from gg.html: -->
+<!--     @keyframes fadeIn {
+ -->

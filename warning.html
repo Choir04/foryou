@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Peringatan!</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+    }
+
+    .popup {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 400px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      animation: fadeIn 1s ease;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+      font-size: 1.7em;
+      animation: blink 1s infinite;
+    }
+
+    #typingText {
+      font-size: 1em;
+      line-height: 1.5em;
+      color: #ffdddd;
+      white-space: pre-wrap;
+      min-height: 140px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #ffffff;
+      color: rgb(0, 0, 0);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: 0.3s;
+      margin-top: 20px;
+      display: none;
+    }
+
+    button:hover {
+      background-color: #7dff62;
+    }
+
+    #introVideo {
+      display: none;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      object-fit: cover;
+      z-index: 999;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+  </style>
+</head>
+<body>
+  <div class="popup" id="popupBox">
+    <h2>⚠️ Peringatan ⚠️</h2>
+    <p id="typingText"></p>
+    <button id="nextBtn" onclick="konfirmasiDanTampilkanVideo()">klik ini 😍</button>
+  </div>
+
+  <video id="introVideo" src="img/30.mp4" type="video/mp4" autoplay></video>
+
+  <script>
+    const text = `Web ini hanya untuk kalangan sendiri!!
+Dilarang keras untuk disebarluaskan ke orang lain.
+Dan dilarang melanggar privasi.
+Web ini dirancang khusus untuk saudari ALFINA FATIMATUZZAHRA.
+Jika Anda bukan yang berkaitan, maka Anda tidak berhak untuk mengakses ini.
+Jika Anda orang lain maka dilarang keras membuka ini.
+Walaupun jiwa kepomu meledak-ledak...
+Atas perhatiannya, terima kasih!
+
+Pastikan sinyal anda kuat dan stabil.
+Jika tidak cari hostpot.
+Jika tidak bisa....Ya harus bisa lah!!!
+
+Jika kamu siap ...`;
+
+    const typingText = document.getElementById("typingText");
+    const nextBtn = document.getElementById("nextBtn");
+    const popupBox = document.getElementById("popupBox");
+    const video = document.getElementById("introVideo");
+
+    let i = 0;
+
+    function ketik() {
+      if (i < text.length) {
+        typingText.textContent += text.charAt(i);
+        i++;
+        setTimeout(ketik, 50);
+      } else {
+        nextBtn.style.display = 'inline-block';
+      }
+    }
+
+    function konfirmasiDanTampilkanVideo() {
+      const konfirmasi = confirm("Anda akan menonton sebuah pertujukan terlebih dahulu. Lanjutkan?");
+      if (konfirmasi) {
+        tampilkanVideo();
+      }
+    }
+
+    function tampilkanVideo() {
+      popupBox.style.display = "none";
+      video.style.display = "block";
+      video.play();
+
+      video.addEventListener("ended", function() {
+        window.location.href = "hh.html"; // Ganti ke halaman berikutnya
+      });
+    }
+
+    window.onload = () => {
+      ketik();
+    };
+  </script>
+</body>
+</html>
